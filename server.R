@@ -11,6 +11,8 @@ library(shiny)
 library(ggplot2)
 source("helper-func.R")
 agg_data <- readRDS("data/rtc-aggregated.rds")
+road_data_reg <- readRDS("data/rtc-road-aggregated-regional.rds")
+road_data_nat <- readRDS("data/rtc-road-aggregated-national.rds")
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
    
@@ -25,6 +27,31 @@ shinyServer(function(input, output) {
     
     
   })
+  
+  output$roadTable <- renderDataTable({
+    if(input$select_region != "National"){
+      x <- road_data_reg %>% filter(ONS.GOR.Name == input$select_region) %>%
+        filter(RCat == input$select_rcat)
+    } else {
+      x <- road_data_nat %>% filter(RCat == input$select_rcat)
+    }
+    x %>% select(Road,
+                 Length.km = LenNet,
+                 AADF.2015 = avg.AADF.2015) %>%
+      mutate(Length.km = round(Length.km, 0),
+             AADF.2015 = round(AADF.2015, 0)) %>%
+      arrange(desc(Length.km))
+                         
+  })
+  
+  
+  output$forecastMap <- renderLeaflet({
+    leaflet() %>% 
+      setView(lat = 53, lng = -2.109, zoom = 6) %>%
+      addProviderTiles("CartoDB.Positron")
+
+  })
+  
   
 
   

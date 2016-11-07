@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(leaflet)
 
 rcats <- list("Trunk motorway" =  "TM", 
               "Principal motorway" =  "PM", 
@@ -46,7 +47,9 @@ shinyUI(fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("regionPlot")
+       plotOutput("regionPlot"),
+       dataTableOutput("roadTable"),
+       leafletOutput("forecastMap")
        
     )
   )
