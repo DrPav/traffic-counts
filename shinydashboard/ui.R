@@ -12,28 +12,26 @@ library(leaflet)
 data(quakes)
 
 
-dashboardPage(
+dashboardPage(title = "Traffic counts app",
   dashboardHeader(title = "Traffic Counts"),
   dashboardSidebar(sidebarMenu(
-    menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard"),
-             menuSubItem("Level 2", tabName = "dashboard2")),
-    menuItem("Widgets", tabName = "widgets", icon = icon("th")),
-    menuItem("Last tab", tabName = "tab3"),
+    menuItem("Count Points", tabName = "trafficCounts", icon = icon("car")),
+    menuItem("Regional Forecast", tabName = "forecasts", icon = icon("line-chart")),
     sliderInput("sliderInput", "Magnitudes", min(quakes$mag), max(quakes$mag),
                 value = range(quakes$mag), step = 0.1)
   )),
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard2",
+      tabItem(tabName = "trafficCounts",
               h2("Main tab contents"),
               leafletOutput("mainMap"),
               tableOutput("pointData")
       ),
       
       # Second tab content
-      tabItem(tabName = "widgets",
-              h2("Widgets tab content")
+      tabItem(tabName = "forecasts",
+              h2("The forecast tab from the other app")
       ),
       tabItem(tabName = "tab3", h2("Final tab"))
     )
