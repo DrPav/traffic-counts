@@ -59,11 +59,11 @@ cord.osgb <- SpatialPoints(cbind(rtc$S.Ref.E, rtc$S.Ref.N),
 
 cord.wgs84 <- spTransform(cord.osgb, CRS("+init=epsg:4326"))
 
-rtc$lat <- cord.wgs84@coords[,1]
-rtc$lon <- cord.wgs84@coords[,2]
+rtc$long <- cord.wgs84@coords[,1]
+rtc$lat <- cord.wgs84@coords[,2]
 
 rtc %>% filter(AADFYear == 2015) %>%
-  select(CP, ONS.GOR.Name, ONS.LA.Name, Road, RCat, lat, lon,
+  select(CP, ONS.GOR.Name, ONS.LA.Name, Road, RCat, lat, long,
          A.Junction, B.Junction) %>%
   unique %>% 
   mutate(ONS.GOR.Name = factor(ONS.GOR.Name)) %>%

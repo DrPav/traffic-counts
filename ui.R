@@ -7,16 +7,15 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
+library(shinydashboard)
 library(leaflet)
-
 rcats <- list("Trunk motorway" =  "TM", 
               "Principal motorway" =  "PM", 
               "Urban trunk road" = "TU",
               "Urban principal road" = "PU",
               "Rural trunk road" =  "TR", 
               "Rural principal road" = "PR"
-              )
+)
 
 regions <- c("National", 
              "East Midlands",
@@ -30,27 +29,41 @@ regions <- c("National",
              "Wales",
              "West Midlands",
              "Yorkshire and The Humber"
-             )
+)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("Average Daily Flow Forecats"),
-  
-  # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-       selectInput("select_region", "Region", choices = regions),
-       selectInput("select_rcat", "Road Type", choices = rcats)
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput("regionPlot"),
-       dataTableOutput("roadTable"),
-       leafletOutput("forecastMap")
-       
+
+dashboardPage(title = "Traffic counts app",
+  dashboardHeader(title = "Traffic Counts"),
+  dashboardSidebar(sidebarMenu(
+    menuItem("Count Points", tabName = "trafficCounts", icon = icon("car")),
+    menuItem("Regional Forecast", tabName = "forecasts", icon = icon("line-chart"))
+  )),
+  dashboardBody(
+    tabItems(
+      # First tab content
+      tabItem(tabName = "trafficCounts",
+              h2("Traffic count points"),
+              leafletOutput("mainMap"),
+              tableOutput("pointData"),
+              plotOutput("countPlot"),
+              downloadButton("downloadButton", label = "Download")
+      ),
+      
+      # Second tab content
+      tabItem(tabName = "forecasts",
+              h2("Regional Forecasts"),
+              fluidRow(
+                box(
+                  selectInput("select_region", "Region", choices = regions),
+                  selectInput("select_rcat", "Road Type", choices = rcats)
+                ),
+                box(dataTableOutput("roadTable"))
+              ),
+              fluidRow(
+                box(plotOutput("regionPlot"), width = 12)
+              )
+      ),
+      tabItem(tabName = "tab3", h2("Final tab"))
     )
   )
-))
+)
