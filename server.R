@@ -16,8 +16,8 @@ source("helper-func.R")
 agg_data <- readRDS("data/rtc-aggregated.rds")
 road_data_reg <- readRDS("data/rtc-road-aggregated-regional.rds")
 road_data_nat <- readRDS("data/rtc-road-aggregated-national.rds")
-cords_meta <- readRDS("data/count-point-meta.rds") %>% filter(RCat == "PU")
-cords_data <- readRDS("data/count-point-data.rds") %>% filter(CP %in% cords_meta$CP)
+cords_meta <- readRDS("data/count-point-meta.rds") 
+cords_data <- readRDS("data/count-point-data.rds") 
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
