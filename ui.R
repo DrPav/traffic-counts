@@ -35,6 +35,8 @@ regions <- c("National",
 dashboardPage(title = "Traffic counts app",
   dashboardHeader(title = "Traffic Counts"),
   dashboardSidebar(sidebarMenu(
+    sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
+                      label = "Search..."),
     menuItem("Count Points", tabName = "trafficCounts", icon = icon("car")),
     menuItem("Regional Forecast", tabName = "forecasts", icon = icon("line-chart"))
   )),
