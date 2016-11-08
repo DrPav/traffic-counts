@@ -37,7 +37,7 @@ shinyServer(function(input, output) {
   clickedPointData <- reactive({
     x <- input$mainMap_marker_click
 
-    cords_data[cords_meta$CP == x["id"], c("AADFYear", "FdAll_MV")] %>% 
+    cords_data[cords_data$CP == x["id"], c("AADFYear", "FdAll_MV")] %>% 
       select(Year = AADFYear, AADF = FdAll_MV)
   })
   
